@@ -119,10 +119,10 @@ El fichero ```k8s.dbgjerez.es.yaml``` contrendrá la definición de nuestro clus
 En mi caso voy a modificar el tipo de instancia ec2. Al ser un cluster de desarrollo asumiré el riesgo de utilizar instancias de tipo stop. 
 
 ```yaml
-  machineType: t2.small
-  maxPrice: "0.008"
-  maxSize: 1
-  minSize: 1
+machineType: t2.small
+maxPrice: "0.008"
+maxSize: 1
+minSize: 1
 ```
 
 Con esta configuración, el precio total del cluster durante un mes sería en torno a 10€ a fecha de hoy.

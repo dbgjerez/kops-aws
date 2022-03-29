@@ -118,10 +118,10 @@ Now we can open the ```k8s.dbgjerez.es.yaml``` file. This file contains a ```Clu
 In my case, I will modify the ec2 instance type. As a development cluster, I can assume the risk of use spot instances.
 
 ```yaml
-  machineType: t2.small
-  maxPrice: "0.008"
-  maxSize: 1
-  minSize: 1
+machineType: t2.small
+maxPrice: "0.008"
+maxSize: 1
+minSize: 1
 ```
 
 I will use a small instances, one for master and one for workers, so the total monthly price turn around €10.
