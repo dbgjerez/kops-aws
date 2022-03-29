@@ -66,4 +66,30 @@ Exists a lot of ways to configure DNS and domain. I had my own domain in AWS.
 You can choose your best way in this list ([DNS and domain](https://kops.sigs.k8s.io/getting_started/aws/#configure-dns)), even though to buy your own domain in AWS it's the easiest. 
 
 ### State
-Kops saves the state of the cluster in a s3
+Kops saves the state of the cluster in a s3 bucket. 
+
+We will create a bucket in ```us-east-1``` as Kops official documentation recommends. 
+
+> **NOTE**  You will be able to create the cluster in any region independent of the s3 location.
+
+I will use a variable for the backet prefix name: 
+
+```zsh
+BUCKET_NAME=k8s.dborrego.example
+```
+
+And now, I create the bucket: 
+
+```zsh
+aws s3api create-bucket \
+    --bucket ${BUCKET_NAME} \
+    --region us-east-1
+```
+
+In addition, it is recommend versiong you s3 bucket: 
+
+```zsh
+aws s3api put-bucket-versioning \
+    --bucket ${BUCKET_NAME}  \
+    --versioning-configuration Status=Enabled
+```
