@@ -94,3 +94,54 @@ aws s3api put-bucket-versioning \
     --bucket ${BUCKET_NAME}  \
     --versioning-configuration Status=Enabled
 ```
+
+### Declarative cluster
+As a IaC and GitOps lovers, we will deploy our cluster in declarative way. 
+
+Firstly, we will declare an variable with the cluster name:
+
+```zsh
+NAME=k8s.dbgjerez.es
+```
+
+To get the definition of the cluster: 
+
+```zsh
+kops create cluster ${NAME} \                   
+    --zones=eu-west-3b \
+    --discovery-store=s3://${BUCKET_NAME}/${NAME}/discovery \
+    --dry-run \
+    -o yaml > $NAME.yaml
+```
+
+Now we can open the ```k8s.dbgjerez.es.yaml``` file. This file contains a ```Cluster``` definition and two ```InstanceGroup``` definition, one for master nodes and another for workers. 
+
+In my case, I will modify the ec2 instance type. As a development cluster, I can assume the risk of use spot instances.
+
+```yaml
+  machineType: t2.small
+  maxPrice: "0.008"
+  maxSize: 1
+  minSize: 1
+```
+
+I will use a small instances, one for master and one for workers, so the total monthly price turn around €10.
+
+In addition, I will change some parameters in the cluster definition. Specifically, I will activate the ```metrics-server``` and ```certManager``` add-ons. 
+
+```yaml
+certManager:
+    enabled: true
+metricsServer:
+    enabled: true
+    insecure: false
+```
+
+Now I have the configuration that I like for this workshop. 
+
+### Deploy
+
+The following step is deploy the cluster. We will create it applying the files:
+
+```zsh
+```
