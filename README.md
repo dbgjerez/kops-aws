@@ -19,7 +19,7 @@ In addition, we need install the following tools before to continue the workshop
 ## How to
 
 ### Kops user
-To deploy the cluster is recommended to create a user for Kops, who we will call ```kops```.
+To deploy the cluster, it is recommended to create a IAM AWS user for Kops, who we will call ```kops```.
 
 The ```kops``` user requires the following IAM permissions:
 
@@ -52,9 +52,9 @@ aws iam add-user-to-group --user-name kops --group-name kops
 aws iam create-access-key --user-name kops
 ```
 
-After the user is created you have to record the ```SecretAccessKey``` and ```AccessKeyID```. 
+After the user is created, you have to record the ```SecretAccessKey``` and ```AccessKeyID```. 
 
-In this point, you should add this user in you aws credentials file and continue the process with the ```kops``` user.
+In this point, you should add this user in your aws credentials file and continue the process with the ```kops``` user.
 
 ```zsh
 AWS_PROFILE=kops
