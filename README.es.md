@@ -65,3 +65,32 @@ AWS_PROFILE=kops
 Existen muchas formas de configurar el DNS y dominio. La forma más sencilla es teniendo tu propio dominio hospedado en AWS. 
 
 En mi caso, tenía mi propio dominio en AWS desde hace tiempo. Tú puedes elegir la forma que más te convenga del siguiente listado: ([DNS y dominio](https://kops.sigs.k8s.io/getting_started/aws/#configure-dns)).
+
+### Estado
+Kops guarda el estado del cluster en un bucket de s3.
+
+Vamos a crear el bucket necesario en la región ```us-east-1``` tal y como recomienda la documentación oficial de Kops.
+
+> **NOTE** Independientemente de la localización del bucket, el cluster podrá ser creado en cualquier región.
+
+Asignamos el nombre del bucket a una variable: 
+
+```zsh
+BUCKET_NAME=k8s.dborrego.example
+```
+
+Creamos el bucket:
+
+```zsh
+aws s3api create-bucket \
+    --bucket ${BUCKET_NAME} \
+    --region us-east-1
+```
+
+Se recomienda activar el versionado del bucket por si se tiene que revertir algún cambio:
+
+```zsh
+aws s3api put-bucket-versioning \
+    --bucket ${BUCKET_NAME}  \
+    --versioning-configuration Status=Enabled
+```
