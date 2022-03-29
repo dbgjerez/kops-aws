@@ -142,7 +142,65 @@ En este punto, tenemos la definición deseada. Ahora solo nos queda aplicarla.
 
 ### Deploy
 
-The following step is deploy the cluster. We will create it applying the files:
+El siguiente paso será desplegar nuestro cluster definitivamente. Para ello bastará con aplicar los ficheros: 
 
 ```zsh
+❯ kops create -f k8s.dbgjerez.es.yaml
+
+Created cluster/k8s.dbgjerez.es
+Created instancegroup/master-eu-west-3b
+Created instancegroup/nodes-eu-west-3b
+
+To deploy these resources, run: kops update cluster --name k8s.dbgjerez.es --yes
 ```
+
+Una vez aplicado los CRDs, creamos el cluster: 
+
+```zsh
+❯ kops update cluster --name ${NAME} --yes
+I0328 15:05:12.590601   99167 executor.go:111] Tasks: 0 done / 97 total; 49 can run
+```
+
+Esperamos unos minutos, dependiendo la potencia de las máquinas seleccionadas y hacemos login sobre el cluster:
+
+```zsh
+❯ kops export kubecfg --admin
+Using cluster from kubectl context: k8s.dbgjerez.es
+
+kOps has set your kubectl context to k8s.dbgjerez.es
+```
+
+Una vez logueados, ya podemos hacer uso del cli de Kubernetes ```kubectl```.
+
+### Check
+
+Vemos los nodos creados: 
+```zsh
+❯ kubectl get nodes
+NAME                                          STATUS     ROLES                              AGE   VERSION
+ip-172-20-35-30.eu-west-3.compute.internal    NotReady   node,spot-worker                   24s   v1.23.5
+ip-172-20-57-255.eu-west-3.compute.internal   Ready      control-plane,master,spot-worker   97s   v1.23.5
+```
+
+Chequeamos uso de CPU y memoria:
+```zsh
+❯ kubectl top nodes
+NAME                                          CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%   
+ip-172-20-39-66.eu-west-3.compute.internal    63m          6%     1003Mi          53%       
+ip-172-20-41-136.eu-west-3.compute.internal   120m         12%    1375Mi          73%       
+```
+
+### Update the configuration
+Gracias a la configuración declarativa de nuestro cluster, cualquier modificación sobre el mismo se simplifica. Concretamente solo necesitamos modificar el CRD correspondiente y aplicar los cambios: 
+
+```zsh
+kops replace -f $NAME.yaml
+kops update cluster $NAME --yes
+kops rolling-update cluster $NAME --yes
+```
+
+## Documentación
+* [Kops getting started](https://kops.sigs.k8s.io/getting_started/aws/)
+* [Customizing manifests](https://kops.sigs.k8s.io/manifests_and_customizing_via_api/#using-a-manifest-to-manage-kops-clusters)
+* [Instance groups](https://kops.sigs.k8s.io/tutorial/working-with-instancegroups/#converting-an-instance-group-to-use-spot-instances)
+* [Addons](https://kops.sigs.k8s.io/addons/)
