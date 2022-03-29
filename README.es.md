@@ -59,3 +59,9 @@ Asegurate de seguir todo el proceso con el usuario ```kops```.
 
 ```zsh
 AWS_PROFILE=kops
+```
+
+### Domain
+Existen muchas formas de configurar el DNS y dominio. La forma más sencilla es teniendo tu propio dominio hospedado en AWS. 
+
+En mi caso, tenía mi propio dominio en AWS desde hace tiempo. Tú puedes elegir la forma que más te convenga del siguiente listado: ([DNS y dominio](https://kops.sigs.k8s.io/getting_started/aws/#configure-dns)).

@@ -61,6 +61,9 @@ AWS_PROFILE=kops
 ```
 
 ### Domain
-Kops saves the state of the cluster in a s3
+Exists a lot of ways to configure DNS and domain. I had my own domain in AWS. 
+
+You can choose your best way in this list ([DNS and domain](https://kops.sigs.k8s.io/getting_started/aws/#configure-dns)), even though to buy your own domain in AWS it's the easiest. 
 
 ### State
+Kops saves the state of the cluster in a s3
