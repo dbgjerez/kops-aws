@@ -16,4 +16,46 @@ Además, es necesario instalar las siguiente heramientas:
 * Kops cli: [Descarga](https://kops.sigs.k8s.io/getting_started/install/)
 * AWS cli: [Documentación](https://aws.amazon.com/cli/)
 
-## 
+## Proceso
+
+### Usuario Kops
+Es recomendable crear un usuario de IAM aws para todo el proceso relacionado con Kops. Este usuario lo llamaramos ```kops```.
+
+EL usuario ```kops``` necesita los siguientes permisos de IAM:
+
+```properties
+AmazonEC2FullAccess
+AmazonRoute53FullAccess
+AmazonS3FullAccess
+IAMFullAccess
+AmazonVPCFullAccess
+AmazonSQSFullAccess
+AmazonEventBridgeFullAccess
+```
+
+Para crear el usuario desde linea de comandos podemos usar las siguientes instrucciones: 
+
+```zsh
+aws iam create-group --group-name kops
+
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonEC2FullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonRoute53FullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/IAMFullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonVPCFullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonSQSFullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess --group-name kops
+
+aws iam create-user --user-name kops
+
+aws iam add-user-to-group --user-name kops --group-name kops
+
+aws iam create-access-key --user-name kops
+```
+
+Una vez el usuario ha sido creado, es importante guardar el  ```SecretAccessKey``` y ```AccessKeyID```. Con dichos parámetros, añade el usuario creado a tu fichero de credencias de AWS (```~/.aws/credentials```).
+
+Asegurate de seguir todo el proceso con el usuario ```kops```.
+
+```zsh
+AWS_PROFILE=kops

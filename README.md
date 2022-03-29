@@ -54,7 +54,7 @@ aws iam create-access-key --user-name kops
 
 After the user is created, you have to record the ```SecretAccessKey``` and ```AccessKeyID```. 
 
-In this point, you should add this user in your aws credentials file and continue the process with the ```kops``` user.
+In this point, you should add this user in your aws credentials file (```~/.aws/credentials```), and continue the process with the ```kops``` user.
 
 ```zsh
 AWS_PROFILE=kops
