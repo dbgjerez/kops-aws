@@ -15,6 +15,7 @@ Además, es necesario instalar las siguiente heramientas:
 
 * Kops cli: [Descarga](https://kops.sigs.k8s.io/getting_started/install/)
 * AWS cli: [Documentación](https://aws.amazon.com/cli/)
+* Kubectl: [Download](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 
 ## Proceso
 

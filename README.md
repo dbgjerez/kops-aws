@@ -15,6 +15,7 @@ In addition, we need install the following tools before to continue the workshop
 
 * Kops cli: [Download](https://kops.sigs.k8s.io/getting_started/install/)
 * AWS cli: [Documentation](https://aws.amazon.com/cli/)
+* Kubectl: [Download](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 
 ## How to
 
@@ -172,6 +173,8 @@ We are logged in our cluster. If we use the kubectl command we can work with the
 
 ### Check
 
+We will check the nodes: 
+
 ```zsh
 ❯ kubectl get nodes
 NAME                                          STATUS     ROLES                              AGE   VERSION
@@ -179,9 +182,25 @@ ip-172-20-35-30.eu-west-3.compute.internal    NotReady   node,spot-worker       
 ip-172-20-57-255.eu-west-3.compute.internal   Ready      control-plane,master,spot-worker   97s   v1.23.5
 ```
 
+And to check the CPU and memory usage:  
 ```zsh
 ❯ kubectl top nodes
 NAME                                          CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%   
 ip-172-20-39-66.eu-west-3.compute.internal    63m          6%     1003Mi          53%       
 ip-172-20-41-136.eu-west-3.compute.internal   120m         12%    1375Mi          73%       
 ```
+
+### Update the configuration
+Thanks we are using the declarative way, to update the cluster we only have to modify the file and apply it: 
+
+```zsh
+kops replace -f $NAME.yaml
+kops update cluster $NAME --yes
+kops rolling-update cluster $NAME --yes
+```
+
+## Documentation
+* [Kops getting started](https://kops.sigs.k8s.io/getting_started/aws/)
+* [Customizing manifests](https://kops.sigs.k8s.io/manifests_and_customizing_via_api/#using-a-manifest-to-manage-kops-clusters)
+* [Instance groups](https://kops.sigs.k8s.io/tutorial/working-with-instancegroups/#converting-an-instance-group-to-use-spot-instances)
+* [Addons](https://kops.sigs.k8s.io/addons/)
