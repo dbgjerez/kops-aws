@@ -16,3 +16,51 @@ In addition, we need install the following tools before to continue the workshop
 * Kops cli: [Download](https://kops.sigs.k8s.io/getting_started/install/)
 * AWS cli: [Documentation](https://aws.amazon.com/cli/)
 
+## How to
+
+### Kops user
+To deploy the cluster is recommended to create a user for Kops, who we will call ```kops```.
+
+The ```kops``` user requires the following IAM permissions:
+
+```properties
+AmazonEC2FullAccess
+AmazonRoute53FullAccess
+AmazonS3FullAccess
+IAMFullAccess
+AmazonVPCFullAccess
+AmazonSQSFullAccess
+AmazonEventBridgeFullAccess
+```
+
+To create the IAM user from command line: 
+```zsh
+aws iam create-group --group-name kops
+
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonEC2FullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonRoute53FullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/IAMFullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonVPCFullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonSQSFullAccess --group-name kops
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AmazonEventBridgeFullAccess --group-name kops
+
+aws iam create-user --user-name kops
+
+aws iam add-user-to-group --user-name kops --group-name kops
+
+aws iam create-access-key --user-name kops
+```
+
+After the user is created you have to record the ```SecretAccessKey``` and ```AccessKeyID```. 
+
+In this point, you should add this user in you aws credentials file and continue the process with the ```kops``` user.
+
+```zsh
+AWS_PROFILE=kops
+```
+
+### Domain
+Kops saves the state of the cluster in a s3
+
+### State
