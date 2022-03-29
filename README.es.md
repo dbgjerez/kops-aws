@@ -96,15 +96,15 @@ aws s3api put-bucket-versioning \
 ```
 
 ### Declarative cluster
-As a IaC and GitOps lovers, we will deploy our cluster in declarative way. 
+Como amante de la IaC y GitOps, vamos a realizar el despliegue de forma declarativa. 
 
-Firstly, we will declare an variable with the cluster name:
+En primer lugar, voy a usar una variable para el nombre del cluster:
 
 ```zsh
 NAME=k8s.dbgjerez.es
 ```
 
-To get the definition of the cluster: 
+Ahora la definción del cluster la podemos generar con el siguiente comando: 
 
 ```zsh
 kops create cluster ${NAME} \                   
@@ -114,9 +114,9 @@ kops create cluster ${NAME} \
     -o yaml > $NAME.yaml
 ```
 
-Now we can open the ```k8s.dbgjerez.es.yaml``` file. This file contains a ```Cluster``` definition and two ```InstanceGroup``` definition, one for master nodes and another for workers. 
+El fichero ```k8s.dbgjerez.es.yaml``` contrendrá la definición de nuestro cluster. El CRD ```Cluster``` para la defición del cluster y dos CRD  ```InstanceGroup```, uno para los maestros y otros para los workers.
 
-In my case, I will modify the ec2 instance type. As a development cluster, I can assume the risk of use spot instances.
+En mi caso voy a modificar el tipo de instancia ec2. Al ser un cluster de desarrollo asumiré el riesgo de utilizar instancias de tipo stop. 
 
 ```yaml
   machineType: t2.small
@@ -125,9 +125,9 @@ In my case, I will modify the ec2 instance type. As a development cluster, I can
   minSize: 1
 ```
 
-I will use a small instances, one for master and one for workers, so the total monthly price turn around €10.
+Con esta configuración, el precio total del cluster durante un mes sería en torno a 10€ a fecha de hoy.
 
-In addition, I will change some parameters in the cluster definition. Specifically, I will activate the ```metrics-server``` and ```certManager``` add-ons. 
+Además de los cambios realizados a nivel de instancias, voy a realizar modificaciones en la definición del cluster para activas los add-ons ```metrics-server``` y ```certManager```. 
 
 ```yaml
 certManager:
@@ -137,7 +137,7 @@ metricsServer:
     insecure: false
 ```
 
-Now I have the configuration that I like for this workshop. 
+En este punto, tenemos la definición deseada. Ahora solo nos queda aplicarla. 
 
 ### Deploy
 
