@@ -143,4 +143,45 @@ Now I have the configuration that I like for this workshop.
 The following step is deploy the cluster. We will create it applying the files:
 
 ```zsh
+❯ kops create -f k8s.dbgjerez.es.yaml
+
+Created cluster/k8s.dbgjerez.es
+Created instancegroup/master-eu-west-3b
+Created instancegroup/nodes-eu-west-3b
+
+To deploy these resources, run: kops update cluster --name k8s.dbgjerez.es --yes
+```
+
+Once the CRDs have been applied, it's time to create the cluster: 
+
+```zsh
+❯ kops update cluster --name ${NAME} --yes
+I0328 15:05:12.590601   99167 executor.go:111] Tasks: 0 done / 97 total; 49 can run
+```
+
+We should wait a few minutes. The following step is login in our cluster:
+
+```zsh
+❯ kops export kubecfg --admin
+Using cluster from kubectl context: k8s.dbgjerez.es
+
+kOps has set your kubectl context to k8s.dbgjerez.es
+```
+
+We are logged in our cluster. If we use the kubectl command we can work with the cluster.
+
+### Check
+
+```zsh
+❯ kubectl get nodes
+NAME                                          STATUS     ROLES                              AGE   VERSION
+ip-172-20-35-30.eu-west-3.compute.internal    NotReady   node,spot-worker                   24s   v1.23.5
+ip-172-20-57-255.eu-west-3.compute.internal   Ready      control-plane,master,spot-worker   97s   v1.23.5
+```
+
+```zsh
+❯ kubectl top nodes
+NAME                                          CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%   
+ip-172-20-39-66.eu-west-3.compute.internal    63m          6%     1003Mi          53%       
+ip-172-20-41-136.eu-west-3.compute.internal   120m         12%    1375Mi          73%       
 ```
