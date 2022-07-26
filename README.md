@@ -200,6 +200,7 @@ kops rolling-update cluster $NAME --yes
 ```
 
 ## Documentation
+* [Blog](https://blog.dbgjerez.es/posts/kops-aws/)
 * [Kops getting started](https://kops.sigs.k8s.io/getting_started/aws/)
 * [Customizing manifests](https://kops.sigs.k8s.io/manifests_and_customizing_via_api/#using-a-manifest-to-manage-kops-clusters)
 * [Instance groups](https://kops.sigs.k8s.io/tutorial/working-with-instancegroups/#converting-an-instance-group-to-use-spot-instances)
